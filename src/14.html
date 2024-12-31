@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyrics Display</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      text-align: center;
+      font-family: monospace;
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .audio-control {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<pre id="lyrics"></pre>
+<div class="audio-control">
+  <audio id="audio" controls autoplay >
+    <source src="die-with-a-smile.mp3" type="audio/mpeg">
+  </audio>
+</div>
+<script>
+  const lines = [
+    " So I'ma love you every night like it's the last night",
+    "Like it's the last night",
+    "If the world was ending",
+    "I'd wanna be next to you",
+    "If the party was over",
+    "And our time on Earth was through",
+    "I'd wanna hold you just for a while",
+    "And die with a smile",
+    "If the world was ending",
+    "I'd wanna be next to you",
+    "Right next to you"
+  ];
+
+  const delays = [600, 600, 1000, 4600, 1000, 3600, 1700, 2000, 900, 1200, 500];
+  const charDelay = 70;
+
+  async function displayLyrics() {
+    const lyricsElement = document.getElementById('lyrics');
+    const audioElement = document.getElementById('audio');
+    audioElement.play();
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      for (const char of line) {
+        lyricsElement.textContent += char;
+        await new Promise(resolve => setTimeout(resolve, charDelay));
+      }
+      lyricsElement.textContent += '\n';
+      await new Promise(resolve => setTimeout(resolve, delays[i]));
+    }
+  }
+
+  window.addEventListener('load', displayLyrics);
+</script>
+</body>
+</html>
